@@ -14,6 +14,8 @@ app.use('/list-edit', listEditRouter);
 
 // Ruta para obtener la lista de tareas
 app.get('/tasks', (req, res) => {
+    console.log('Solicitud GET recibida en la ruta /tasks');
+    
   const tasks = [
     {
       id: '123456',
@@ -21,6 +23,9 @@ app.get('/tasks', (req, res) => {
       description: 'Walk the dog'
     }
   ];
+
+  tasks[0].description = 'Walk the cat';
+
   res.json(tasks);
 });
 
