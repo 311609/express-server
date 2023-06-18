@@ -1,59 +1,48 @@
 const express = require('express');
 const app = express();
-
+const listViewRouter = require('./list-review-router');
+const listEditRouter = require('./list-edit-router');
 
 app.use(express.json()); // Middleware para procesar el cuerpo de las solicitudes JSON
 app.use(express.urlencoded({ extended: true })); // Middleware para procesar el cuerpo de las solicitudes URL-encoded
 
-// Middleware para gestionar solicitudes por métodos HTTP válidos
+// Middleware a nivel de aplicación para gestionar métodos HTTP válidos
 app.use((req, res, next) => {
-  if (req.method !== 'GET' && req.method !== 'POST' && req.method !== 'PUT') {
+  if (!['GET', 'POST', 'PUT', 'DELETE'].includes(req.method)) {
     return res.status(400).json({ error: 'Método HTTP no válido' });
   }
+
   next();
 });
 
-
-// Middleware para el router list-edit-router
-const listEditMiddleware = (req, res, next) => {
-  if (req.method === 'POST') {
-    if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({ error: 'Cuerpo de la solicitud vacío' });
-    }
-  
-    // Si hay información no válida o atributos faltantes, retorna un código de respuesta 400
-  }
-
-  if (req.method === 'PUT') {
-    if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({ error: 'Cuerpo de la solicitud vacío' });
-    }
-  
-    // Si hay información no válida o atributos faltantes, retorna un código de respuesta 400
-  }
-
+// Middleware para gestionar parámetros correctos en el direccionador list-view-router
+app.use('/list-view', (req, res, next) => {
+  // Verificar si los parámetros son correctos (por ejemplo, si existen y tienen el formato adecuado)
+  // Si los parámetros no son correctos, se puede devolver un código de respuesta 400 y un mensaje de error
+  // En caso contrario, llamar a next() para pasar al siguiente middleware o enrutador
   next();
-};
+});
 
-// Middleware para el direccionador list-view-router
-const listViewMiddleware = (req, res, next) => {
+// Rutas para listar tareas completas e incompletas
+app.use('/list-view', listViewRouter);
 
-  // Si los parámetros no son correctos, retorna un código de respuesta 400
-  next();
-};
-
-app.use('/list-edit', listEditMiddleware);
-app.use('/list-view', listViewMiddleware);
+// Rutas para crear, eliminar y actualizar tareas
+app.use('/list-edit', listEditRouter);
 
 // Ruta para obtener la lista de tareas
 app.get('/tasks', (req, res) => {
+  console.log('Solicitud GET recibida en la ruta /tasks');
+
   const tasks = [
     {
       id: '123456',
       isCompleted: false,
-      description: 'Walk the dog'
+      description: 'writhe in english'
     }
   ];
+
+  tasks[0].description = 'Walk the cat';
+
   res.json(tasks);
 });
 
