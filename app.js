@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const app = express();
-const listViewRouter = require('./list-review-router');
+const listReviewRouter = require('./list-review-router');
 const listEditRouter = require('./list-edit-router');
 
 dotenv.config(); // Cargar variables de entorno desde el archivo .env
@@ -17,11 +17,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/list-view', (req, res, next) => {
+app.use('/list-review', (req, res, next) => {
   next();
 });
 
-app.use('/list-view', listViewRouter);
+app.use('/list-review', listReviewRouter);
 
 app.use('/list-edit', listEditRouter);
 
