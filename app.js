@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const app = express();
-const listViewRouter = require('./list-view-router');
+const listViewRouter = require('./list-View-router');
 const listEditRouter = require('./list-edit-router');
 
 dotenv.config(); // Cargar variables de entorno desde el archivo .env
@@ -17,11 +17,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/list-review', (req, res, next) => {
+app.use('/list-view', (req, res, next) => {
   next();
 });
 
-app.use('/list-review', listViewRouter);
+app.use('/list-view', listViewRouter);
 
 app.use('/list-edit', listEditRouter);
 
@@ -78,8 +78,12 @@ app.get('/protected-route', authenticateToken, (req, res) => {
   res.json({ message: 'Ruta protegida accesada con éxito' });
 });
 
-const port = 3000;
+const port = 3001;
 const host = 'localhost';
 app.listen(port, host, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);
 });
+
+
+
+module.exports = app;
