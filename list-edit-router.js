@@ -1,18 +1,20 @@
 const express = require('express');
 const router = express.Router();
+const Task = require('./db').Task;
 
-router.get('/completed', (req, res) => {
+
+router.get('/completed', (_req, res) => {
   console.log('Solicitud GET recibida en la ruta /list-view/completed');
 
   const completedTasks = [
-    {
-      id: '123456',
+    {      
       isCompleted: true,
+      title: 'Conection with MongoDB Atlas',
       description: 'Complete task 1'
     },
-    {
-      id: '789012',
+    {      
       isCompleted: true,
+      title: 'practice with MongoDb Atlas',
       description: 'Complete task 2'
     }
   ];

@@ -1,14 +1,31 @@
 const express = require('express');
 const router = express.Router();
+const Task = require('./db').Task;
+
+
+
+
+router.get('/', async (req, res) => {
+  try {
+    // Realizar la consulta a la base de datos para obtener todas las tareas
+    const tasks = await Task.find();
+
+    res.json(tasks);
+  } catch (error) {
+    console.error("Error al obtener las tareas:", error);
+    res.status(500).json({ error: "Error al obtener las tareas" });
+  }
+});
+
 
 // Ruta para obtener todas las tareas
 router.get('/', (req, res) => {
   console.log('Solicitud GET recibida en la ruta /list-view');
 
   const tasks = [
-    {
-      id: '123456',
+    {     
       isCompleted: false,
+      title: 'Task name',
       description: 'writhe in english'
     }
   ];
@@ -23,14 +40,14 @@ router.get('/completed', (req, res) => {
   console.log('Solicitud GET recibida en la ruta /list-view/completed');
 
   const completedTasks = [
-    {
-      id: '123456',
+    {      
       isCompleted: true,
+      title: 'Task name',
       description: 'Complete task 1'
     },
-    {
-      id: '789012',
+    {      
       isCompleted: true,
+      title: 'Task name',
       description: 'Complete task 2'
     }
   ];
@@ -50,9 +67,9 @@ router.get('/:taskId', (req, res) => {
 
   // Realiza las operaciones necesarias para obtener la tarea por su ID
 
-  const task = {
-    id: taskId,
+  const task = {    
     isCompleted: false,
+    title: 'Task name',
     description: 'Task description'
   };
 
