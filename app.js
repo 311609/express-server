@@ -56,8 +56,7 @@ dotenv.config(); // Cargar variables de entorno desde el archivo .env
       } else {
         res.status(401).json({ error: 'Credenciales inválidas' });
       }
-    });
-  
+    });  
     
     // Ruta para insertar una tarea en la base de datos "tasks"
     app.post('/tasks', async (req, res) => {
@@ -78,11 +77,9 @@ dotenv.config(); // Cargar variables de entorno desde el archivo .env
       }
     });
 
-
     // Ruta para obtener las tareas completadas
 app.get('/completed', async (req, res) => {
   try {
-    // Realizar la consulta a la base de datos para obtener las tareas completadas
     const completedTasks = await Task.find({ isCompleted: true });
 
     res.json(completedTasks);
@@ -91,7 +88,6 @@ app.get('/completed', async (req, res) => {
     res.status(500).json({ error: "Error al obtener las tareas completadas" });
   }
 });
-
     
     // Ruta para obtener los datos de una tarea específica de la colección "tasks" por su ID
     app.get('/tasks/:taskId', async (req, res) => {
@@ -119,12 +115,13 @@ app.get('/completed', async (req, res) => {
         res.status(500).json({ error: "Error al actualizar la tarea" });
       }
     });
-
+    
+   //Ruta para borrar una tarea de la base de datos "tasks" por su ID
     app.delete('/tasks/:taskId', async (req, res) => {
       const taskId = req.params.taskId;
     
       try {
-        await deleteTaskById(taskId); // Aquí usamos la función deleteTaskById para eliminar la tarea por su ID
+        await deleteTaskById(taskId); 
         res.json({ message: "Tarea eliminada correctamente" });
       } catch (error) {
         console.error("Error al eliminar la tarea:", error);
